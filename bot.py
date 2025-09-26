@@ -64,7 +64,7 @@ class Bot(Client):
     
     async def iter_messages(
         self,
-        chat_id: Union[int, str],
+        chat_id: Union[int, str], 
         limit: int,
         offset: int = 0,
        ) -> Optional[AsyncGenerator["types.Message", None]]:
