@@ -22,13 +22,13 @@ API_ID = int(environ.get('API_ID', ''))
 API_HASH = environ.get('API_HASH', '')
 BOT_TOKEN = environ.get('BOT_TOKEN', '')
 ADMINS = [int(admin) if id_pattern.search(admin) else admin for admin in environ.get('ADMINS', '').split()]
-USERNAME = environ.get('USERNAME', "https://telegram.me/Silicon_Official")
+USERNAME = environ.get('USERNAME', "https://telegram.me/flipkartlootzs")
 LOG_CHANNEL = int(environ.get('LOG_CHANNEL', ''))
-MOVIE_GROUP_LINK = environ.get('MOVIE_GROUP_LINK', 'https://t.me/LuciferCinema')
+MOVIE_GROUP_LINK = environ.get('MOVIE_GROUP_LINK', 'https://t.me/pathans_movies')
 
 # Pics 
 
-QR_CODE = environ.get('QR_CODE', 'https://graph.org/file/ccb9db43e62a2e524928e.jpg')
+QR_CODE = environ.get('QR_CODE', 'https://envs.sh/GBd.jpg')
 START_IMG = environ.get('START_IMG', 'https://i.ibb.co/LdT5fdJY/photo-2025-08-13-01-12-38-7537871916074270724.jpg')
 FSUB_PICS = (environ.get('FSUB_PICS', 'https://graph.org/file/7478ff3eac37f4329c3d8.jpg https://graph.org/file/56b5deb73f3b132e2bb73.jpg')).split() 
 
@@ -50,9 +50,9 @@ COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Silicon_Files')
 IS_VERIFY = is_enabled('IS_VERIFY', True)
 LOG_VR_CHANNEL = int(environ.get('LOG_VR_CHANNEL', ''))
 LOG_API_CHANNEL = int(environ.get('LOG_API_CHANNEL', ''))
-TUTORIAL = environ.get("TUTORIAL", "https://t.me/Silicon_Bot_Update")
-TUTORIAL2 = environ.get("TUTORIAL2", "https://t.me/Silicon_Bot_Update")
-TUTORIAL3 = environ.get("TUTORIAL3", "https://t.me/Silicon_Bot_Update")
+TUTORIAL = environ.get("TUTORIAL", "https://t.me/")
+TUTORIAL2 = environ.get("TUTORIAL2", "https://t.me/")
+TUTORIAL3 = environ.get("TUTORIAL3", "https://t.me/")
 VERIFY_IMG = environ.get("VERIFY_IMG", "https://graph.org/file/1669ab9af68eaa62c3ca4.jpg")
 SHORTENER_API = environ.get("SHORTENER_API", "5bb6e402dd86fb8774690a5f4a65d2a2c0c04877")
 SHORTENER_WEBSITE = environ.get("SHORTENER_WEBSITE", 'shortslink.in')
@@ -121,7 +121,7 @@ if len(BIN_CHANNEL) == 0:
     exit()
 else:
     BIN_CHANNEL = int(BIN_CHANNEL)
-URL = environ.get("URL", "https://efficient-greer-silicon-develr09-a7dbfae3.koyeb.app/") #App URL Where you deployed
+URL = environ.get("URL", "") #App URL Where you deployed
 if len(URL) == 0:
     print('error URL is missing, exiting now')
     exit()
