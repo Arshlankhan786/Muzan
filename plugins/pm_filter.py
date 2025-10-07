@@ -17,6 +17,7 @@ lock = asyncio.Lock()
 import traceback
 from fuzzywuzzy import process
 import logging
+from info import AUTO_FILTER
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.ERROR)
@@ -62,7 +63,8 @@ async def group_search(client, message):
     if not sili.get('AUTO_FILTER', True) if sili else True:
         return await message.reply_text('<b><i>ᴀᴜᴛᴏ ꜰɪʟᴛᴇʀ ᴡᴀs ᴅɪsᴀʙʟᴇᴅ!</i></b>')
 
-    if settings["auto_filter"]:
+    if settings.get("auto_filter", AUTO_FILTER):
+
         if not user_id:
             await message.reply("<b>🚨 ɪ'ᴍ ɴᴏᴛ ᴡᴏʀᴋɪɴɢ ꜰᴏʀ ᴀɴᴏɴʏᴍᴏᴜꜱ ᴀᴅᴍɪɴ!</b>")
             return
