@@ -3,7 +3,12 @@ import os
 from os import environ
 from Script import script
 
-id_pattern = re.compile(r'^.\d+$')
+# ─────────────────────────────
+# Helper Functions
+# ─────────────────────────────
+
+id_pattern = re.compile(r'^-?\d+$')  # accepts negative (channel) IDs too
+
 def is_enabled(value, default):
     if value.lower() in ["true", "yes", "1", "enable", "y"]:
         return True
@@ -13,10 +18,12 @@ def is_enabled(value, default):
         return default
 
 def is_valid_ip(ip):
-    ip_pattern = r'\b(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b'
+    ip_pattern = r'\b(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9][0-9]?)\b'
     return re.match(ip_pattern, ip) is not None
 
-# Main Variables 
+# ─────────────────────────────
+# Main Variables
+# ─────────────────────────────
 
 API_ID = int(environ.get('API_ID', '20588632'))
 API_HASH = environ.get('API_HASH', '86381c7fcfd83ca9bb16f920b6f132b3')
@@ -26,26 +33,34 @@ USERNAME = environ.get('USERNAME', "https://telegram.me/flipkartlootzs")
 LOG_CHANNEL = int(environ.get('LOG_CHANNEL', '-1001915187457'))
 MOVIE_GROUP_LINK = environ.get('MOVIE_GROUP_LINK', 'https://t.me/pathans_movies')
 
-# Pics 
+# ─────────────────────────────
+# Pics
+# ─────────────────────────────
 
 QR_CODE = environ.get('QR_CODE', 'https://envs.sh/GBd.jpg')
 START_IMG = environ.get('START_IMG', 'https://graph.org/file/af54c50978d7bd219d38a.jpg https://graph.org/file/e41349ea48fd7e5324ac3.jpg https://graph.org/file/1dff8a8429b6a52a0e0cc.jpg https://graph.org/file/7bfdd6ab09c1423ee0bdd.jpg https://graph.org/file/02ec1b10f3bc9fbef2a1d.jpg').split()
-FSUB_PICS = (environ.get('FSUB_PICS', 'https://graph.org/file/7478ff3eac37f4329c3d8.jpg')).split() 
+FSUB_PICS = environ.get('FSUB_PICS', 'https://graph.org/file/7478ff3eac37f4329c3d8.jpg').split()
 
+# ─────────────────────────────
 # File Limit
+# ─────────────────────────────
 
-IS_FILE_LIMIT = is_enabled('IS_FILE_LIMIT', True) # Enable Or Disable File Limit
-FILES_LIMIT = int(environ.get("FREE_FILES", "2")) #No. of File User Gets In Free
+IS_FILE_LIMIT = is_enabled('IS_FILE_LIMIT', True)
+FILES_LIMIT = int(environ.get("FREE_FILES", "2"))
 
+# ─────────────────────────────
 # Database Settings
+# ─────────────────────────────
 
 DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://Pathan:pathan@cluster0.b0zqbsl.mongodb.net/?retryWrites=true&w=majority")
-FILES_DATABASE_URL = environ.get('FILES_DATABASE_URL', "mongodb+srv://Pathan:pathan@cluster0.b0zqbsl.mongodb.net/?retryWrites=true&w=majority") # For Files
-SECOND_FILES_DATABASE_URL = environ.get('SECOND_FILES_DATABASE_URL', "mongodb+srv://Order:order@cluster0.aitjsft.mongodb.net/?retryWrites=true&w=majority") # 2nd DB For Files
+FILES_DATABASE_URL = environ.get('FILES_DATABASE_URL', DATABASE_URI)
+SECOND_FILES_DATABASE_URL = environ.get('SECOND_FILES_DATABASE_URL', "mongodb+srv://Order:order@cluster0.aitjsft.mongodb.net/?retryWrites=true&w=majority")
 DATABASE_NAME = environ.get('DATABASE_NAME', "Auto-filter-muzan")
 COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Telegram_files')
 
-# Verify/Shortlink Settings 
+# ─────────────────────────────
+# Verify / Shortlink Settings
+# ─────────────────────────────
 
 IS_VERIFY = is_enabled('IS_VERIFY', True)
 LOG_VR_CHANNEL = int(environ.get('LOG_VR_CHANNEL', '-1001915187457'))
@@ -63,33 +78,54 @@ SHORTENER_WEBSITE3 = environ.get("SHORTENER_WEBSITE3", '')
 TWO_VERIFY_GAP = int(environ.get('TWO_VERIFY_GAP', "14400"))
 THREE_VERIFY_GAP = int(environ.get('THREE_VERIFY_GAP', "14400"))
 
-# Force Subscribe Settings 
+# ─────────────────────────────
+# Force Subscribe Settings (Fixed for Private Channels)
+# ─────────────────────────────
 
-auth_req_channels = environ.get("AUTH_REQ_CHANNELS", "-1002984412963")# requst to join Channel for force sub (make sure bot is admin) only for bot ADMINS  
-auth_channels = environ.get("AUTH_CHANNELS", "-1002697792618")# Channels for force sub (make sure bot is admin)
-AUTH_REQ_CHANNELS = [int(ch) for ch in auth_req_channels.split() if ch and id_pattern.match(ch)] 
-AUTH_CHANNELS = [int(ch) for ch in auth_channels.split() if ch and id_pattern.match(ch)]
+# Make sure your bot is admin in the private channels
+# Use @RawDataBot to get the numeric channel ID
 
+auth_req_channels = environ.get("AUTH_REQ_CHANNELS", "-1002984412963")
+auth_channels = environ.get("AUTH_CHANNELS", "-1002123456789")  # Example: your private channel ID
+
+def parse_channels(channels):
+    parsed = []
+    for ch in channels.split():
+        try:
+            parsed.append(int(ch))
+        except ValueError:
+            print(f"⚠️ Skipping invalid channel ID: {ch}")
+    return parsed
+
+AUTH_REQ_CHANNELS = parse_channels(auth_req_channels)
+AUTH_CHANNELS = parse_channels(auth_channels)
+
+# ─────────────────────────────
 # Channels
+# ─────────────────────────────
 
 SUPPORT_GROUP = int(environ.get('SUPPORT_GROUP', '-1001972484628'))
 request_channel = environ.get('REQUEST_CHANNEL', '-1002697792618')
 REQUEST_CHANNEL = int(request_channel) if request_channel and id_pattern.search(request_channel) else None
 
-# Movie Update Notification Settings/ Auto Index Settings
+# ─────────────────────────────
+# Movie Update / Auto Index
+# ─────────────────────────────
 
-MOVIE_UPDATE_NOTIFICATION = bool(environ.get('MOVIE_UPDATE_NOTIFICATION', True))  # Notification On (True) / Off (False)
-MOVIE_UPDATE_CHANNEL = int(environ.get('MOVIE_UPDATE_CHANNEL', '-1002984412963'))  # Notification of sent to your channel
-CHANNELS = [int(ch) if id_pattern.search(ch) else ch for ch in environ.get('CHANNELS', '-1001672766292').split()] # Auto Index Channel
-DELETE_CHANNELS = int(environ.get('DELETE_CHANNELS','-1002984412963')) # Channel to delete file from DB
-IMAGE_FETCH = bool(environ.get('IMAGE_FETCH', True))  # On (True) / Off (False)
-LINK_PREVIEW = bool(environ.get('LINK_PREVIEW', False)) # Shows link preview in notification msg instead of image
-ABOVE_PREVIEW = bool(environ.get('ABOVE_PREVIEW', True)) # Shows link preview above the text in notification msg if True else below the msg
-TMDB_API_KEY = environ.get('TMDB_API_KEY', '') # preffer to use your own tmdb API Key get it from https://www.themoviedb.org/settings/api
-TMDB_POSTER = bool(environ.get('TMDB_POSTER', False)) # Shows TMDB poster in notification msg
-LANDSCAPE_POSTER = bool(environ.get('LANDSCAPE_POSTER', True)) # Shows landscape poster in notification msg
+MOVIE_UPDATE_NOTIFICATION = bool(environ.get('MOVIE_UPDATE_NOTIFICATION', True))
+MOVIE_UPDATE_CHANNEL = int(environ.get('MOVIE_UPDATE_CHANNEL', '-1002984412963'))
+CHANNELS = [int(ch) for ch in environ.get('CHANNELS', '-1001672766292').split() if id_pattern.search(ch)]
+DELETE_CHANNELS = int(environ.get('DELETE_CHANNELS', '-1002984412963'))
+IMAGE_FETCH = bool(environ.get('IMAGE_FETCH', True))
+LINK_PREVIEW = bool(environ.get('LINK_PREVIEW', False))
+ABOVE_PREVIEW = bool(environ.get('ABOVE_PREVIEW', True))
+TMDB_API_KEY = environ.get('TMDB_API_KEY', '')
+TMDB_POSTER = bool(environ.get('TMDB_POSTER', False))
+LANDSCAPE_POSTER = bool(environ.get('LANDSCAPE_POSTER', True))
 
+# ─────────────────────────────
 # Bot Settings
+# ─────────────────────────────
 
 AUTO_FILTER = is_enabled('AUTO_FILTER', True)
 FILE_AUTO_DEL_TIMER = int(environ.get('FILE_AUTO_DEL_TIMER', '600'))
@@ -106,24 +142,39 @@ SPELL_CHECK = is_enabled('SPELL_CHECK', True)
 LINK_MODE = is_enabled('LINK_MODE', True)
 USE_CAPTION_FILTER = is_enabled('USE_CAPTION_FILTER', False)
 
-# Filters Settings No Need To Change Anything There 
+# ─────────────────────────────
+# Filters
+# ─────────────────────────────
 
-LANGUAGES = [("ʜɪɴᴅɪ", "hin"), ("ᴇɴɢʟɪsʜ", "eng"), ("ᴛᴇʟᴜɢᴜ", "telugu"), ("ᴛᴀᴍɪʟ", "tamil"), ("ᴋᴀɴɴᴀᴅᴀ", "kannada"), ("ᴍᴀʟᴀʏᴀʟᴀᴍ", "malayalam"), ("ʙᴇɴɢᴀʟɪ", "ben"), ("ᴍᴀʀᴀᴛʜɪ", "marathi"), ("ɢᴜᴊᴀʀᴀᴛɪ", "gujarati"), ("ᴘᴜɴᴊᴀʙɪ", "punjabi")]
-QUALITIES = [ "240p", "360p", "480p", "540p", "720p", "960p", "1080p", "1440p"]
-SEASONS = [("sᴇᴀsᴏɴ 𝟷", "s01"), ("sᴇᴀsᴏɴ 𝟸", "s02"), ("sᴇᴀsᴏɴ 𝟹", "s03"), ("sᴇᴀsᴏɴ 𝟺", "s04"), ("sᴇᴀsᴏɴ 𝟻", "s05"), ("sᴇᴀsᴏɴ 𝟼", "s06"), ("sᴇᴀsᴏɴ 𝟽", "s07"), ("sᴇᴀsᴏɴ 𝟾", "s08"), ("sᴇᴀsᴏɴ 𝟿", "s09"), ("sᴇᴀsᴏɴ 𝟷𝟶", "s10")]
+LANGUAGES = [
+    ("ʜɪɴᴅɪ", "hin"), ("ᴇɴɢʟɪsʜ", "eng"), ("ᴛᴇʟᴜɢᴜ", "telugu"),
+    ("ᴛᴀᴍɪʟ", "tamil"), ("ᴋᴀɴɴᴀᴅᴀ", "kannada"), ("ᴍᴀʟᴀʏᴀʟᴀᴍ", "malayalam"),
+    ("ʙᴇɴɢᴀʟɪ", "ben"), ("ᴍᴀʀᴀᴛʜɪ", "marathi"), ("ɢᴜᴊᴀʀᴀᴛɪ", "gujarati"), ("ᴘᴜɴᴊᴀʙɪ", "punjabi")
+]
 
-# Stream Settings 
+QUALITIES = ["240p", "360p", "480p", "540p", "720p", "960p", "1080p", "1440p"]
+SEASONS = [
+    ("sᴇᴀsᴏɴ 𝟷", "s01"), ("sᴇᴀsᴏɴ 𝟸", "s02"), ("sᴇᴀsᴏɴ 𝟹", "s03"),
+    ("sᴇᴀsᴏɴ 𝟺", "s04"), ("sᴇᴀsᴏɴ 𝟻", "s05"), ("sᴇᴀsᴏɴ 𝟼", "s06"),
+    ("sᴇᴀsᴏɴ 𝟽", "s07"), ("sᴇᴀsᴏɴ 𝟾", "s08"), ("sᴇᴀsᴏɴ 𝟿", "s09"), ("sᴇᴀsᴏɴ 𝟷𝟶", "s10")
+]
 
-IS_PREMIUM_STREAM = is_enabled('IS_PREMIUM_STREAM', True) # True To Allow Stream For Premium User Only
-BIN_CHANNEL = environ.get("BIN_CHANNEL", "-1002984412963") # Channel Where Files sent For stream
-if len(BIN_CHANNEL) == 0:
-    print('Error BIN_CHANNEL is missing, exiting now')
+# ─────────────────────────────
+# Stream Settings
+# ─────────────────────────────
+
+IS_PREMIUM_STREAM = is_enabled('IS_PREMIUM_STREAM', True)
+BIN_CHANNEL = environ.get("BIN_CHANNEL", "-1002984412963")
+
+if not BIN_CHANNEL:
+    print('❌ Error: BIN_CHANNEL is missing, exiting...')
     exit()
 else:
     BIN_CHANNEL = int(BIN_CHANNEL)
-URL = environ.get("URL", "https://feminist-marketa-muzanbot-ee3c813c.koyeb.app/") #App URL Where you deployed
-if len(URL) == 0:
-    print('error URL is missing, exiting now')
+
+URL = environ.get("URL", "https://feminist-marketa-muzanbot-ee3c813c.koyeb.app/")
+if not URL:
+    print('❌ Error: URL is missing, exiting...')
     exit()
 else:
     if URL.startswith(('https://', 'http://')):
@@ -132,5 +183,5 @@ else:
     elif is_valid_ip(URL):
         URL = f'http://{URL}/'
     else:
-        print('error URL is not valid, exiting now')
+        print('❌ Error: Invalid URL format, exiting...')
         exit()
