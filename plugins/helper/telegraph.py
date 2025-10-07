@@ -65,7 +65,7 @@ async def upload_command(client, message):
     await uploading_message.delete()
     
     await message.reply_text(
-        text=f"<b>ʏᴏᴜʀ ᴜᴘʟᴏᴀᴅ ʟɪɴᴋ ᴄᴏᴍᴘʟᴇᴛᴇᴅ 👇</b>\n\n<code>{silicon_url}</code>\n\n<b>ᴘᴏᴡᴇʀᴇᴅ ʙʏ - @Silicon_Bot_Update</b>",
+        text=f"<b>ʏᴏᴜʀ ᴜᴘʟᴏᴀᴅ ʟɪɴᴋ ᴄᴏᴍᴘʟᴇᴛᴇᴅ 👇</b>\n\n<code>{silicon_url}</code>\n\n<b>ᴘᴏᴡᴇʀᴇᴅ ʙʏ - @pathans_movies</b>",
         disable_web_page_preview=True,
         reply_markup=InlineKeyboardMarkup([[
             InlineKeyboardButton(text="✓ ᴏᴘᴇɴ ʟɪɴᴋ ✓", url=silicon_url),
