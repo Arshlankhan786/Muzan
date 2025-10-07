@@ -724,7 +724,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             script.ABOUT_TEXT.format(temp.B_LINK),
             reply_markup = InlineKeyboardMarkup(
                 [[
-            InlineKeyboardButton ('🎁 sᴏᴜʀᴄᴇ', callback_data='source'),
+            
             InlineKeyboardButton ('📖 ᴅᴍᴄᴀ', callback_data='dmca')
         ],[
             InlineKeyboardButton('⋞ ʜᴏᴍᴇ', callback_data='start')]]
@@ -734,7 +734,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
 
     elif query.data == "source":
         buttons = [[
-            InlineKeyboardButton('ꜱᴏᴜʀᴄᴇ ᴄᴏᴅᴇ 📜', url='https://github.com/Silicon-Developer/Auto-Filter-Bot.git'),
+        
             InlineKeyboardButton('⇋ ʙᴀᴄᴋ ⇋', callback_data='about')
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
