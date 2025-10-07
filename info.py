@@ -18,32 +18,32 @@ def is_valid_ip(ip):
 
 # Main Variables 
 
-API_ID = int(environ.get('API_ID', ''))
-API_HASH = environ.get('API_HASH', '')
+API_ID = int(environ.get('API_ID', '20588632'))
+API_HASH = environ.get('API_HASH', '86381c7fcfd83ca9bb16f920b6f132b3')
 BOT_TOKEN = environ.get('BOT_TOKEN', '')
-ADMINS = [int(admin) if id_pattern.search(admin) else admin for admin in environ.get('ADMINS', '').split()]
+ADMINS = [int(admin) if id_pattern.search(admin) else admin for admin in environ.get('ADMINS', '5554060579 5683891175').split()]
 USERNAME = environ.get('USERNAME', "https://telegram.me/flipkartlootzs")
-LOG_CHANNEL = int(environ.get('LOG_CHANNEL', ''))
+LOG_CHANNEL = int(environ.get('LOG_CHANNEL', '-1001915187457'))
 MOVIE_GROUP_LINK = environ.get('MOVIE_GROUP_LINK', 'https://t.me/pathans_movies')
 
 # Pics 
 
 QR_CODE = environ.get('QR_CODE', 'https://envs.sh/GBd.jpg')
-START_IMG = environ.get('START_IMG', 'https://i.ibb.co/LdT5fdJY/photo-2025-08-13-01-12-38-7537871916074270724.jpg')
-FSUB_PICS = (environ.get('FSUB_PICS', 'https://graph.org/file/7478ff3eac37f4329c3d8.jpg https://graph.org/file/56b5deb73f3b132e2bb73.jpg')).split() 
+START_IMG = environ.get('START_IMG', 'https://graph.org/file/af54c50978d7bd219d38a.jpg https://graph.org/file/e41349ea48fd7e5324ac3.jpg https://graph.org/file/1dff8a8429b6a52a0e0cc.jpg https://graph.org/file/7bfdd6ab09c1423ee0bdd.jpg https://graph.org/file/02ec1b10f3bc9fbef2a1d.jpg').split()
+FSUB_PICS = (environ.get('FSUB_PICS', 'https://graph.org/file/7478ff3eac37f4329c3d8.jpg')).split() 
 
 # File Limit
 
 IS_FILE_LIMIT = is_enabled('IS_FILE_LIMIT', True) # Enable Or Disable File Limit
-FILES_LIMIT = int(environ.get("FREE_FILES", "3")) #No. of File User Gets In Free
+FILES_LIMIT = int(environ.get("FREE_FILES", "2")) #No. of File User Gets In Free
 
 # Database Settings
 
-DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://@cluster0.mongodb.net/?retryWrites=true&w=majority")
-FILES_DATABASE_URL = environ.get('FILES_DATABASE_URL', "mongodb+srv://@cluster0.mongodb.net/?retryWrites=true&w=majority") # For Files
+DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://Pathan:pathan@cluster0.b0zqbsl.mongodb.net/?retryWrites=true&w=majority")
+FILES_DATABASE_URL = environ.get('FILES_DATABASE_URL', "mongodb+srv://Pathan:pathan@cluster0.b0zqbsl.mongodb.net/?retryWrites=true&w=majority") # For Files
 SECOND_FILES_DATABASE_URL = environ.get('SECOND_FILES_DATABASE_URL', "") # 2nd DB For Files
-DATABASE_NAME = environ.get('DATABASE_NAME', "Silicon")
-COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Silicon_Files')
+DATABASE_NAME = environ.get('DATABASE_NAME', "Auto-filter-muzan")
+COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Telegram_files')
 
 # Verify/Shortlink Settings 
 
@@ -54,33 +54,33 @@ TUTORIAL = environ.get("TUTORIAL", "https://t.me/")
 TUTORIAL2 = environ.get("TUTORIAL2", "https://t.me/")
 TUTORIAL3 = environ.get("TUTORIAL3", "https://t.me/")
 VERIFY_IMG = environ.get("VERIFY_IMG", "https://graph.org/file/1669ab9af68eaa62c3ca4.jpg")
-SHORTENER_API = environ.get("SHORTENER_API", "5bb6e402dd86fb8774690a5f4a65d2a2c0c04877")
-SHORTENER_WEBSITE = environ.get("SHORTENER_WEBSITE", 'shortslink.in')
-SHORTENER_API2 = environ.get("SHORTENER_API2", "41a89e7a1f16e7dbec0ee52d743f3b5a38a09613")
-SHORTENER_WEBSITE2 = environ.get("SHORTENER_WEBSITE2", 'shortslink2.com')
-SHORTENER_API3 = environ.get("SHORTENER_API3", "f287e7e9b1a23c34f542f77787d39607cae36a4d")
-SHORTENER_WEBSITE3 = environ.get("SHORTENER_WEBSITE3", 'shortslink3.online')
+SHORTENER_API = environ.get("SHORTENER_API", "0273843b7172767783d7f45dbc80b259651b411b")
+SHORTENER_WEBSITE = environ.get("SHORTENER_WEBSITE", 'gplinks.com')
+SHORTENER_API2 = environ.get("SHORTENER_API2", "")
+SHORTENER_WEBSITE2 = environ.get("SHORTENER_WEBSITE2", '')
+SHORTENER_API3 = environ.get("SHORTENER_API3", "")
+SHORTENER_WEBSITE3 = environ.get("SHORTENER_WEBSITE3", '')
 TWO_VERIFY_GAP = int(environ.get('TWO_VERIFY_GAP', "14400"))
 THREE_VERIFY_GAP = int(environ.get('THREE_VERIFY_GAP', "14400"))
 
 # Force Subscribe Settings 
 
 auth_req_channels = environ.get("AUTH_REQ_CHANNELS", "-100")# requst to join Channel for force sub (make sure bot is admin) only for bot ADMINS  
-auth_channels = environ.get("AUTH_CHANNELS", "-100")# Channels for force sub (make sure bot is admin)
+auth_channels = environ.get("AUTH_CHANNELS", "-1002697792618")# Channels for force sub (make sure bot is admin)
 AUTH_REQ_CHANNELS = [int(ch) for ch in auth_req_channels.split() if ch and id_pattern.match(ch)] 
 AUTH_CHANNELS = [int(ch) for ch in auth_channels.split() if ch and id_pattern.match(ch)]
 
 # Channels
 
-SUPPORT_GROUP = int(environ.get('SUPPORT_GROUP', '-1001816697837'))
-request_channel = environ.get('REQUEST_CHANNEL', '-1002470027489')
+SUPPORT_GROUP = int(environ.get('SUPPORT_GROUP', '-1001972484628'))
+request_channel = environ.get('REQUEST_CHANNEL', '-1002697792618')
 REQUEST_CHANNEL = int(request_channel) if request_channel and id_pattern.search(request_channel) else None
 
 # Movie Update Notification Settings/ Auto Index Settings
 
-MOVIE_UPDATE_NOTIFICATION = bool(environ.get('MOVIE_UPDATE_NOTIFICATION', False))  # Notification On (True) / Off (False)
+MOVIE_UPDATE_NOTIFICATION = bool(environ.get('MOVIE_UPDATE_NOTIFICATION', True))  # Notification On (True) / Off (False)
 MOVIE_UPDATE_CHANNEL = int(environ.get('MOVIE_UPDATE_CHANNEL', ''))  # Notification of sent to your channel
-CHANNELS = [int(ch) if id_pattern.search(ch) else ch for ch in environ.get('CHANNELS', '').split()] # Auto Index Channel
+CHANNELS = [int(ch) if id_pattern.search(ch) else ch for ch in environ.get('CHANNELS', '-1001672766292').split()] # Auto Index Channel
 DELETE_CHANNELS = int(environ.get('DELETE_CHANNELS','')) # Channel to delete file from DB
 IMAGE_FETCH = bool(environ.get('IMAGE_FETCH', True))  # On (True) / Off (False)
 LINK_PREVIEW = bool(environ.get('LINK_PREVIEW', False)) # Shows link preview in notification msg instead of image
@@ -114,14 +114,14 @@ SEASONS = [("sᴇᴀsᴏɴ 𝟷", "s01"), ("sᴇᴀsᴏɴ 𝟸", "s02"), ("sᴇ�
 
 # Stream Settings 
 
-IS_PREMIUM_STREAM = is_enabled('IS_PREMIUM_STREAM', False) # True To Allow Stream For Premium User Only
+IS_PREMIUM_STREAM = is_enabled('IS_PREMIUM_STREAM', True) # True To Allow Stream For Premium User Only
 BIN_CHANNEL = environ.get("BIN_CHANNEL", "") # Channel Where Files sent For stream
 if len(BIN_CHANNEL) == 0:
     print('Error BIN_CHANNEL is missing, exiting now')
     exit()
 else:
     BIN_CHANNEL = int(BIN_CHANNEL)
-URL = environ.get("URL", "") #App URL Where you deployed
+URL = environ.get("URL", "feminist-marketa-muzanbot-ee3c813c.koyeb.app/") #App URL Where you deployed
 if len(URL) == 0:
     print('error URL is missing, exiting now')
     exit()
