@@ -1,14 +1,12 @@
 import re
 import os
 from os import environ
-from Script import script
+from Script import script  # Make sure script.py has FILE_CAPTION and IMDB_TEMPLATE_TXT
 
-# ─────────────────────────────
-# Helper Functions
-# ─────────────────────────────
+# Regex patterns
+id_pattern = re.compile(r'^.\d+$')
 
-id_pattern = re.compile(r'^-?\d+$')  # accepts negative (channel) IDs too
-
+# Helper functions
 def is_enabled(value, default):
     if value.lower() in ["true", "yes", "1", "enable", "y"]:
         return True
@@ -18,22 +16,122 @@ def is_enabled(value, default):
         return default
 
 def is_valid_ip(ip):
-    ip_pattern = r'\b(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9][0-9]?)\b'
+    ip_pattern = r'\b(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.' \
+                 r'(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.' \
+                 r'(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.' \
+                 r'(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b'
     return re.match(ip_pattern, ip) is not None
 
-# ─────────────────────────────
 # Main Variables
-# ─────────────────────────────
-
 API_ID = int(environ.get('API_ID', '20588632'))
 API_HASH = environ.get('API_HASH', '86381c7fcfd83ca9bb16f920b6f132b3')
 BOT_TOKEN = environ.get('BOT_TOKEN', '')
-ADMINS = [int(admin) if id_pattern.search(admin) else admin for admin in environ.get('ADMINS', '5554060579 5683891175').split()]
+
+ADMINS = [int(admin) if id_pattern.search(admin) else admin
+          for admin in environ.get('ADMINS', '5554060579 5683891175').split()]
+
 USERNAME = environ.get('USERNAME', "https://telegram.me/flipkartlootzs")
 LOG_CHANNEL = int(environ.get('LOG_CHANNEL', '-1001915187457'))
 MOVIE_GROUP_LINK = environ.get('MOVIE_GROUP_LINK', 'https://t.me/pathans_movies')
 
-# ─────────────────────────────
+# Pics
+QR_CODE = environ.get('QR_CODE', 'https://envs.sh/GBd.jpg')
+START_IMG = environ.get('START_IMG',
+                        'https://graph.org/file/af54c50978d7bd219d38a.jpg '
+                        'https://graph.org/file/e41349ea48fd7e5324ac3.jpg '
+                        'https://graph.org/file/1dff8a8429b6a52a0e0cc.jpg '
+                        'https://graph.org/file/7bfdd6ab09c1423ee0bdd.jpg '
+                        'https://graph.org/file/02ec1b10f3bc9fbef2a1d.jpg').split()
+FSUB_PICS = environ.get('FSUB_PICS', 'https://graph.org/file/7478ff3eac37f4329c3d8.jpg').split()
+
+# File Limit
+IS_FILE_LIMIT = is_enabled(environ.get('IS_FILE_LIMIT', 'True'), True)
+FILES_LIMIT = int(environ.get("FREE_FILES", "2"))
+
+# Database
+DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://Pathan:pathan@cluster0.b0zqbsl.mongodb.net/?retryWrites=true&w=majority")
+FILES_DATABASE_URL = environ.get('FILES_DATABASE_URL', DATABASE_URI)
+SECOND_FILES_DATABASE_URL = environ.get('SECOND_FILES_DATABASE_URL', "mongodb+srv://Order:order@cluster0.aitjsft.mongodb.net/?retryWrites=true&w=majority")
+DATABASE_NAME = environ.get('DATABASE_NAME', "Auto-filter-muzan")
+COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Telegram_files')
+
+# Verify/Shortlink
+IS_VERIFY = is_enabled(environ.get('IS_VERIFY', 'True'), True)
+LOG_VR_CHANNEL = int(environ.get('LOG_VR_CHANNEL', '-1001915187457'))
+LOG_API_CHANNEL = int(environ.get('LOG_API_CHANNEL', '-1001915187457'))
+
+TUTORIAL = environ.get("TUTORIAL", "https://t.me/")
+TUTORIAL2 = environ.get("TUTORIAL2", "https://t.me/")
+TUTORIAL3 = environ.get("TUTORIAL3", "https://t.me/")
+VERIFY_IMG = environ.get("VERIFY_IMG", "https://graph.org/file/1669ab9af68eaa62c3ca4.jpg")
+
+SHORTENER_API = environ.get("SHORTENER_API", "0273843b7172767783d7f45dbc80b259651b411b")
+SHORTENER_WEBSITE = environ.get('SHORTENER_WEBSITE', 'gplinks.com')
+SHORTENER_API2 = environ.get("SHORTENER_API2", "")
+SHORTENER_WEBSITE2 = environ.get("SHORTENER_WEBSITE2", '')
+SHORTENER_API3 = environ.get("SHORTENER_API3", "")
+SHORTENER_WEBSITE3 = environ.get("SHORTENER_WEBSITE3", '')
+TWO_VERIFY_GAP = int(environ.get('TWO_VERIFY_GAP', "14400"))
+THREE_VERIFY_GAP = int(environ.get('THREE_VERIFY_GAP', "14400"))
+
+# Force Subscribe Settings
+auth_req_channels = environ.get("AUTH_REQ_CHANNELS", "-1002984412963")
+auth_channels = environ.get("AUTH_CHANNELS", "-1002697792618")
+
+AUTH_REQ_CHANNELS = [int(ch) for ch in auth_req_channels.split() if ch and id_pattern.match(ch)]
+AUTH_CHANNELS = [int(ch) for ch in auth_channels.split() if ch and id_pattern.match(ch)]
+
+# Channels
+SUPPORT_GROUP = int(environ.get('SUPPORT_GROUP', '-1001972484628'))
+REQUEST_CHANNEL = int(environ.get('REQUEST_CHANNEL', '-1002697792618')) if environ.get('REQUEST_CHANNEL') else None
+
+# Movie/Auto Index
+MOVIE_UPDATE_NOTIFICATION = bool(environ.get('MOVIE_UPDATE_NOTIFICATION', True))
+MOVIE_UPDATE_CHANNEL = int(environ.get('MOVIE_UPDATE_CHANNEL', '-1002984412963'))
+CHANNELS = [int(ch) if id_pattern.search(ch) else ch for ch in environ.get('CHANNELS', '-1001672766292').split()]
+DELETE_CHANNELS = int(environ.get('DELETE_CHANNELS','-1002984412963'))
+IMAGE_FETCH = bool(environ.get('IMAGE_FETCH', True))
+LINK_PREVIEW = bool(environ.get('LINK_PREVIEW', False))
+ABOVE_PREVIEW = bool(environ.get('ABOVE_PREVIEW', True))
+TMDB_API_KEY = environ.get('TMDB_API_KEY', '')
+TMDB_POSTER = bool(environ.get('TMDB_POSTER', False))
+LANDSCAPE_POSTER = bool(environ.get('LANDSCAPE_POSTER', True))
+
+# Bot Settings
+AUTO_FILTER = is_enabled(environ.get('AUTO_FILTER', 'True'), True)
+FILE_AUTO_DEL_TIMER = int(environ.get('FILE_AUTO_DEL_TIMER', '600'))
+PORT = os.environ.get('PORT', '5000')
+MAX_BTN = int(environ.get('MAX_BTN', '8'))
+AUTO_DELETE = is_enabled(environ.get('AUTO_DELETE', 'True'), True)
+DELETE_TIME = int(environ.get('DELETE_TIME', 3000))
+IMDB = is_enabled(environ.get('IMDB', 'False'), False)
+LONG_IMDB_DESCRIPTION = is_enabled(environ.get('LONG_IMDB_DESCRIPTION', 'True'), True)
+PROTECT_CONTENT = is_enabled(environ.get('PROTECT_CONTENT', 'False'), False)
+SPELL_CHECK = is_enabled(environ.get('SPELL_CHECK', 'True'), True)
+LINK_MODE = is_enabled(environ.get('LINK_MODE', 'True'), True)
+USE_CAPTION_FILTER = is_enabled(environ.get('USE_CAPTION_FILTER', 'False'), False)
+
+# Filters
+LANGUAGES = [("ʜɪɴᴅɪ", "hin"), ("ᴇɴɢʟɪsʜ", "eng"), ("ᴛᴇʟᴜɢᴜ", "telugu"),
+             ("ᴛᴀᴍɪʟ", "tamil"), ("ᴋᴀɴɴᴀᴅᴀ", "kannada"), ("ᴍᴀʟᴀʏᴀʟᴀᴍ", "malayalam"),
+             ("ʙᴇɴɢᴀʟɪ", "ben"), ("ᴍᴀʀᴀᴛʜɪ", "marathi"), ("ɢᴜᴊᴀʀᴀᴛɪ", "gujarati"),
+             ("ᴘᴜɴᴊᴀʙɪ", "punjabi")]
+
+QUALITIES = ["240p", "360p", "480p", "540p", "720p", "960p", "1080p", "1440p"]
+SEASONS = [("sᴇᴀsᴏɴ 𝟷", "s01"), ("sᴇᴀsᴏɴ 𝟸", "s02"), ("sᴇᴀsᴏɴ 𝟹", "s03")]
+
+# Stream
+IS_PREMIUM_STREAM = is_enabled(environ.get('IS_PREMIUM_STREAM', 'True'), True)
+BIN_CHANNEL = int(environ.get("BIN_CHANNEL", "-1002984412963"))
+URL = environ.get("URL", "https://feminist-marketa-muzanbot-ee3c813c.koyeb.app/")
+if not URL.endswith("/"):
+    URL += "/"
+
+# ✅ Settings dictionary to fix KeyError 'caption'
+settings = {
+    'caption': environ.get('FILE_CAPTION', script.FILE_CAPTION),
+    'imdb_template': environ.get('IMDB_TEMPLATE', script.IMDB_TEMPLATE_TXT)
+}
 # Pics
 # ─────────────────────────────
 
