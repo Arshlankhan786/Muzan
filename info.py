@@ -41,7 +41,7 @@ FILES_LIMIT = int(environ.get("FREE_FILES", "2")) #No. of File User Gets In Free
 
 DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://Pathan:pathan@cluster0.b0zqbsl.mongodb.net/?retryWrites=true&w=majority")
 FILES_DATABASE_URL = environ.get('FILES_DATABASE_URL', "mongodb+srv://Pathan:pathan@cluster0.b0zqbsl.mongodb.net/?retryWrites=true&w=majority") # For Files
-SECOND_FILES_DATABASE_URL = environ.get('SECOND_FILES_DATABASE_URL', "") # 2nd DB For Files
+SECOND_FILES_DATABASE_URL = environ.get('SECOND_FILES_DATABASE_URL', "mongodb+srv://Order:order@cluster0.aitjsft.mongodb.net/?retryWrites=true&w=majority") # 2nd DB For Files
 DATABASE_NAME = environ.get('DATABASE_NAME', "Auto-filter-muzan")
 COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Telegram_files')
 
@@ -65,7 +65,7 @@ THREE_VERIFY_GAP = int(environ.get('THREE_VERIFY_GAP', "14400"))
 
 # Force Subscribe Settings 
 
-auth_req_channels = environ.get("AUTH_REQ_CHANNELS", "-1002697792618")# requst to join Channel for force sub (make sure bot is admin) only for bot ADMINS  
+auth_req_channels = environ.get("AUTH_REQ_CHANNELS", "-1002984412963")# requst to join Channel for force sub (make sure bot is admin) only for bot ADMINS  
 auth_channels = environ.get("AUTH_CHANNELS", "-1002697792618")# Channels for force sub (make sure bot is admin)
 AUTH_REQ_CHANNELS = [int(ch) for ch in auth_req_channels.split() if ch and id_pattern.match(ch)] 
 AUTH_CHANNELS = [int(ch) for ch in auth_channels.split() if ch and id_pattern.match(ch)]
@@ -96,8 +96,8 @@ FILE_AUTO_DEL_TIMER = int(environ.get('FILE_AUTO_DEL_TIMER', '600'))
 PORT = os.environ.get('PORT', '5000')
 MAX_BTN = int(environ.get('MAX_BTN', '8'))
 AUTO_DELETE = is_enabled('AUTO_DELETE', True)
-DELETE_TIME = int(environ.get('DELETE_TIME', 300))
-IMDB = is_enabled('IMDB', True)
+DELETE_TIME = int(environ.get('DELETE_TIME', 3000))
+IMDB = is_enabled('IMDB', False)
 FILE_CAPTION = environ.get('FILE_CAPTION', f'{script.FILE_CAPTION}')
 IMDB_TEMPLATE = environ.get('IMDB_TEMPLATE', f'{script.IMDB_TEMPLATE_TXT}')
 LONG_IMDB_DESCRIPTION = is_enabled('LONG_IMDB_DESCRIPTION', True)
