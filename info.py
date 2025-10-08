@@ -32,6 +32,7 @@ def parse_int_list(env_value):
     """Convert space-separated IDs to int list, fallback to str if invalid."""
     return [int(x) if id_pattern.match(x) else x for x in str(env_value).split() if x]
 
+
 # -------------------------------
 # API & Bot Credentials
 # -------------------------------
@@ -42,9 +43,9 @@ BOT_TOKEN = environ.get('BOT_TOKEN', '')
 
 ADMINS = parse_int_list(environ.get('ADMINS', '5554060579 5683891175'))
 USERNAME = environ.get('USERNAME', "https://telegram.me/flipkartlootzs")
-
 LOG_CHANNEL = int(environ.get('LOG_CHANNEL', '-1001915187457'))
 MOVIE_GROUP_LINK = environ.get('MOVIE_GROUP_LINK', 'https://t.me/pathans_movies')
+
 
 # -------------------------------
 # Images
@@ -64,12 +65,14 @@ FSUB_PICS = environ.get(
     'https://graph.org/file/7478ff3eac37f4329c3d8.jpg'
 ).split()
 
+
 # -------------------------------
 # File Limits
 # -------------------------------
 
 IS_FILE_LIMIT = is_enabled(environ.get('IS_FILE_LIMIT', True))
 FILES_LIMIT = int(environ.get("FREE_FILES", "2"))
+
 
 # -------------------------------
 # Database Settings
@@ -89,6 +92,7 @@ SECOND_FILES_DATABASE_URL = environ.get(
 )
 DATABASE_NAME = environ.get('DATABASE_NAME', "Auto-filter-muzan")
 COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Telegram_files')
+
 
 # -------------------------------
 # Verification / Shortlink
@@ -113,6 +117,7 @@ SHORTENER_WEBSITE3 = environ.get("SHORTENER_WEBSITE3", '')
 TWO_VERIFY_GAP = int(environ.get('TWO_VERIFY_GAP', "14400"))
 THREE_VERIFY_GAP = int(environ.get('THREE_VERIFY_GAP', "14400"))
 
+
 # -------------------------------
 # Force Subscribe
 # -------------------------------
@@ -122,6 +127,7 @@ auth_channels = environ.get("AUTH_CHANNELS", "-1002697792618")
 
 AUTH_REQ_CHANNELS = parse_int_list(auth_req_channels)
 AUTH_CHANNELS = parse_int_list(auth_channels)
+
 
 # -------------------------------
 # Channels
@@ -143,6 +149,7 @@ TMDB_API_KEY = environ.get('TMDB_API_KEY', '')
 TMDB_POSTER = is_enabled(environ.get('TMDB_POSTER', False))
 LANDSCAPE_POSTER = is_enabled(environ.get('LANDSCAPE_POSTER', True))
 
+
 # -------------------------------
 # Bot Settings
 # -------------------------------
@@ -161,6 +168,7 @@ PROTECT_CONTENT = is_enabled(environ.get('PROTECT_CONTENT', False))
 SPELL_CHECK = is_enabled(environ.get('SPELL_CHECK', True))
 LINK_MODE = is_enabled(environ.get('LINK_MODE', True))
 USE_CAPTION_FILTER = is_enabled(environ.get('USE_CAPTION_FILTER', False))
+
 
 # -------------------------------
 # Filters / Streams
@@ -186,6 +194,13 @@ BIN_CHANNEL = int(environ.get("BIN_CHANNEL", "-1002984412963"))
 URL = environ.get("URL", "https://feminist-marketa-muzanbot-ee3c813c.koyeb.app/")
 if not URL.endswith("/"):
     URL += "/"
+
+if not URL.startswith(("https://", "http://")):
+    if is_valid_ip(URL):
+        URL = f"http://{URL}/"
+    else:
+        raise SystemExit("Error: Invalid URL format.")
+
 
 # -------------------------------
 # Settings Dictionary (fix KeyErrors)
