@@ -360,11 +360,35 @@ async def start(client: Client, message):
     else:
         return await message.reply('<b>⚠️ ᴀʟʟ ꜰɪʟᴇs ɴᴏᴛ ꜰᴏᴜɴᴅ ⚠️</b>')
 
-    settings = await get_settings(grp_id)
-    f_caption = settings['caption'].format(
-        file_name=formate_file_name(files['file_name']),
-        file_size=get_size(files['file_size']),
-        file_caption=files.get('caption', '')
+       settings = await get_settings(grp_id)
+
+    # Default stylish caption format
+    default_caption = (
+        "<b>{file_name}</b>\n\n"
+        "📦 Size: <code>{file_size}</code>\n"
+        "{file_caption}\n\n"
+        "━━━━━━━━━━━━━━━━━━━\n"
+        "📢 ᴊᴏɪɴ ɴᴏᴡ :- @pathans_movies\n"
+        "━━━━━━━━━━━━━━━━━━━"
+    )
+
+    # Safely get caption template from settings or fallback
+    caption_template = settings.get('caption', default_caption)
+
+    try:
+        f_caption = caption_template.format(
+            file_name=formate_file_name(files.get('file_name', 'Unknown')),
+            file_size=get_size(files.get('file_size', 0)),
+            file_caption=files.get('caption', '')
+        )
+    except KeyError:
+        # fallback caption if template variables are missing
+        f_caption = default_caption.format(
+            file_name=formate_file_name(files.get('file_name', 'Unknown')),
+            file_size=get_size(files.get('file_size', 0)),
+            file_caption=files.get('caption', '')
+        )
+
     )
 
     btn = [[InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f'stream#{file_id}')]]
